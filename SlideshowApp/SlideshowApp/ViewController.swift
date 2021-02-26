@@ -15,16 +15,33 @@ class ViewController: UIViewController {
     var timer_sec : Float = 0
     let images = [UIImage(named: "imageOne"),UIImage(named: "imageTwo"),UIImage(named: "imageThree")]
     
-   
     
-    @IBOutlet weak var nextimageoutlet: UIButton!
-    @IBOutlet weak var backimageoutlet: UIButton!
+    
+    
+    @IBAction func unwind (_ segue: UIStoryboardSegue) {
+    }
+    @IBAction func tapimage(_ sender: Any) {
+        _ = imageindex
+         func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+            let expansionViewController : EXpansionViewController = segue.destination as! EXpansionViewController
+            
+            
+            expansionViewController.x = imageindex
+    }
+    
+        
+        
+    }
+    
+    @IBOutlet weak var nextimage: UIButton!
+    @IBOutlet weak var backimage: UIButton!
+    @IBOutlet weak var startstop: UIButton!
     
     
     
     override func viewDidLoad() {
         
-     super.viewDidLoad()
+        super.viewDidLoad()
         // Do any additional setup after loading the view.
         
         let imageView = images[0]
@@ -45,24 +62,24 @@ class ViewController: UIViewController {
         }
     }
     
-
+    
     @IBAction func nextimage(_ sender: Any) {
         
         if timer != nil {
-            nextimageoutlet.isEnabled = false
+            
         }
         if imageindex == 2 {
             imageindex = 0
         }else {
             imageindex += 1
-        
+            
         }; slide.image = images [imageindex]
         
     }
     
     @IBAction func backimage(_ sender: Any) {
         if timer != nil {
-            backimageoutlet.isEnabled = false
+            
         }
         
         if imageindex == 0 {
@@ -71,22 +88,41 @@ class ViewController: UIViewController {
             imageindex -= 1
         }; slide.image = images [imageindex]    }
     
-       
+    
     
     
     @IBAction func startstop(_ sender: Any) {
         
         if (timer == nil) {
+            backimage.isHidden = true
+            nextimage.isHidden = true
+            
             self.timer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(slideshowTimer(_:)), userInfo: nil, repeats: true)
+            
+            startstop.setTitle("停止", for: .normal)
+            
         }else {
             self.timer.invalidate()
             timer = nil
-            nextimageoutlet.isEnabled = true
-            backimageoutlet.isEnabled = true        }
+            nextimage.isHidden = false
+            backimage.isHidden = false
+            
+            startstop.setTitle("再生", for: .normal)
+            
+        }
         
-     
+        
         
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let _ : EXpansionViewController = segue.destination as! EXpansionViewController
+        
+        slide.image = images [imageindex]
+        
+    }
 }
+
+
+
 
