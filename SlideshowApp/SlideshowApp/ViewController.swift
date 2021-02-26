@@ -14,8 +14,12 @@ class ViewController: UIViewController {
     var timer:Timer!
     var timer_sec : Float = 0
     let images = [UIImage(named: "imageOne"),UIImage(named: "imageTwo"),UIImage(named: "imageThree")]
-     
-
+    
+   
+    
+    @IBOutlet weak var nextimageoutlet: UIButton!
+    @IBOutlet weak var backimageoutlet: UIButton!
+    
     
     
     override func viewDidLoad() {
@@ -43,9 +47,13 @@ class ViewController: UIViewController {
     
 
     @IBAction func nextimage(_ sender: Any) {
+        
+        if timer != nil {
+            nextimageoutlet.isEnabled = false
+        }
         if imageindex == 2 {
             imageindex = 0
-        } else {
+        }else {
             imageindex += 1
         
         }; slide.image = images [imageindex]
@@ -53,15 +61,29 @@ class ViewController: UIViewController {
     }
     
     @IBAction func backimage(_ sender: Any) {
+        if timer != nil {
+            backimageoutlet.isEnabled = false
+        }
+        
         if imageindex == 0 {
             imageindex = 2
         } else {
             imageindex -= 1
-        }; slide.image = images [imageindex]
-    }
+        }; slide.image = images [imageindex]    }
+    
+       
+    
     
     @IBAction func startstop(_ sender: Any) {
-        Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(slideshowTimer(_:)), userInfo: nil, repeats: true)
+        
+        if (timer == nil) {
+            self.timer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(slideshowTimer(_:)), userInfo: nil, repeats: true)
+        }else {
+            self.timer.invalidate()
+            timer = nil
+            nextimageoutlet.isEnabled = true
+            backimageoutlet.isEnabled = true        }
+        
      
         
     }
