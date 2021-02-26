@@ -115,13 +115,9 @@ class ViewController: UIViewController {
         
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let _ : EXpansionViewController = segue.destination as! EXpansionViewController
-        
-        slide.image = images [imageindex]
-        
+   
     }
-}
+
 
 
 
